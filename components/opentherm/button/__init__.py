@@ -13,7 +13,7 @@ from .. import opentherm
 CONF_BOILER_LO_RESET = "boiler_lo_reset"
 CONF_CH_WATER_FILLING = "ch_water_filling"
 
-ICON_RESET = "mdi:reset"
+ICON_RESET = "mdi:lock-reset"
 ICON_WATER_FILLING = "mdi:format-color-fill"
 
 
