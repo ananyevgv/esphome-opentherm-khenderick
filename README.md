@@ -1,6 +1,6 @@
 # What does this implement?
 
-This component provides support for opentherm devices such as:
+This component provides support for opentherm BAXI NUVOLA-3 B-40 such as:
 * [DIYLess](https://diyless.com/)' Master OpenTherm Shield
 * [Ihor Melnyk](http://ihormelnyk.com/opentherm_adapter)' OpenTherm adapter
 
@@ -30,16 +30,116 @@ Feel free to help me out and open a PR with improvements.
 Note that the connected boiler might not support all sensors. If warnings are reported about unknown messages
 it usually means that the related sensor isn't supported. In that case, just remove that sensor from the config.
 
-```yaml
-external_components:
-  source: github://khenderick/esphome-opentherm
-  components: [opentherm]
+substitutions:
+  devicename: boiler
+  upper_devicename: boiler
 
+esphome:
+  name: "${devicename}"
+  on_boot:
+    then:
+      - delay: 2s
+      - switch.turn_on: ch_2_enabled
+      - switch.turn_on: dhw_enabled
+      - number.set:
+          id: dhw_num
+          value:  54
+
+esp8266:
+  board: d1_mini
+
+external_components:
+  source: github://ananyevgv/esphome-opentherm-khenderick
+  components: [opentherm]
+  refresh: 0s
 opentherm:
-  read_pin: 21
-  write_pin: 22
+  read_pin: D2 #3
+  write_pin: D1 #1
+
+# Enable logging
+logger:
+   baud_rate: 0
+   
+api:
+  password: !secret api_pass
+#Включаем загрузку по воздуху
+ota:
+  password: !secret ota_pass
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "${upper_devicename} IP Address"
+      icon: mdi:ip
+    ssid:
+      name: "${upper_devicename} SSID"
+      icon: mdi:access-point-network
+    mac_address:
+      name: "${upper_devicename} Mac"
+      icon: mdi:lan
+
+  - platform: template
+    name: "Ошибка котла"
+    icon: mdi:water-boiler-alert
+    lambda: |-
+      uint8_t var = (id(oem_error).state);
+      switch (var) {
+        case 0: return std::string("Ошибок нет");
+        case 1: return std::string("E01 Отсутствие розжига");
+        case 2: return std::string("E02 Сработал защитный термостат от перегрева");
+        case 3: return std::string("E03 Сработал защитный датчик тяги");
+        case 4: return std::string("E04 Частый срыв пламени");        
+        case 5: return std::string("E05 Неисправность датчика отопления");
+        case 6: return std::string("E06 Неисправность датчика контура ГВС");
+        case 10: return std::string("E10 Неисправность датчика давления воды");
+        case 11: return std::string("E11 Неисправность открытия входа внешнего программируемого датчика температуры (= 04)");
+        case 12: return std::string("E12 Нет разрешения от дифференциального датчика гидравлического давления (прессостата)");
+        case 13: return std::string("E13 Залипание контактов дифференциального гидравлического прессостата");
+        case 18: return std::string("E18 Включено заполнение системы (замечание)");
+        case 19: return std::string("E19 Неисправность при заполнения системы");
+        case 25: return std::string("E25 Воздых в системе");
+        case 35: return std::string("E35 Паразитное пламя (ошибка пламени)");
+        case 80 ... 96: return std::string("E80-96 Ошибка сьемной панели)");
+        case 97: return std::string("E97 Неправильная частота сети электропитания)");
+        case 98: return std::string("E98 Проблема с контактами реле газового клапана, внутренняя ошибка");
+        case 99: return std::string("E99 Проблема котактов реле, внутренняя ошибка");
+        default: return std::string("Неизвестная ошибка");
+      } 
 
 sensor:
+  - platform: pid
+    name: "PID результат"
+    type: RESULT    
+  - platform: pid
+    name: "PID нагрев"
+    type: HEAT    
+  - platform: pid
+    name: "PID ошибка"
+    type: ERROR    
+  - platform: pid
+    name: "PID p"
+    type: PROPORTIONAL
+  - platform: pid
+    name: "PID i"
+    type: INTEGRAL
+  - platform: pid
+    name: "PID d"
+    type: DERIVATIVE
+
+  - platform: dht
+    pin: D3
+    temperature:
+      name: "${upper_devicename} room Temperature"
+      id: room_t
+    humidity:
+      name: "${upper_devicename} room Humidity"
+    update_interval: 5s
+    model: AM2302
+
   - platform: opentherm
     ch_min_temperature:
       name: "CH minimum temperature"
@@ -49,122 +149,184 @@ sensor:
       name: "DHW minimum temperature"
     dhw_max_temperature:
       name: "DHW maximum temperature"
-    dhw_flow_rate:
-      name: "DHW flow rate"
-    pressure:
-      name: "pressure"
     modulation:
       name: "modulation"
+      id: modulation
     dhw_temperature:
       name: "DHW temperature"
-    dhw_2_temperature:
-      name: "DHW 2 temperature"
     boiler_temperature:
       name: "boiler temperature"
-    boiler_2_temperature:
-      name: "boiler 2 temperature"
-    return_temperature:
-      name: "return temperature"
     outside_temperature:
       name: "outside temperature"
-    exhaust_temperature:
-      name: "exhaust temperature"
+
     oem_error_code:
       name: "OEM error code"
-    oem_diagnostic_code:
-      name: "OEM diagnostic code"
-    burner_starts:
-      name: "burner starts"
-    burner_ops_hours:
-      name: "burner operation hours"
-    ch_pump_starts:
-      name: "CH pump starts"
-    ch_pump_ops_hours:
-      name: "CH pump operation hours"
-    dhw_pump_valve_starts:
-      name: "DHW pump/valve starts"
-    dhw_pump_valve_ops_hours:
-      name: "DHW pump/valve operation hours"
-    dhw_burner_starts:
-      name: "DHW burner starts"
-    dhw_burner_ops_hours:
-      name: "DHW burner operation hours"
+      id: oem_error
+      icon: mdi:water-boiler-alert
+      
+  - platform: wifi_signal
+    name: "${upper_devicename} Wifi"
+    update_interval: 60s  
+    id: wifi_signal_db
+    entity_category: "diagnostic"
+  - platform: copy # Reports the WiFi signal strength in %
+    source_id: wifi_signal_db
+    name: "${upper_devicename} WiFi Percent"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: "diagnostic"
+
+  - platform: copy 
+    source_id: modulation
+    name: "${upper_devicename} power"
+    filters:
+      - lambda: return (x * 0.244);
+    unit_of_measurement: "kW"
+    device_class: "power"
+    id: boiler_power
+
+  - platform: total_daily_energy
+    name: "${upper_devicename} Total Daily Energy"
+    power_id: boiler_power
+    accuracy_decimals: 1
 
 binary_sensor:
   - platform: opentherm
     ch_active:
       name: "CH active"
+      icon: mdi:radiator
     ch_2_active:
-      name: "CH 2 active"
+      name: "ECO"
+      icon: mdi:sprout
     dhw_active:
       name: "DHW active"
+      icon: mdi:water-boiler
     flame_active:
       name: "flame active"
+      icon: mdi:fire
     fault:
       name: "fault"
+      icon: mdi:water-boiler-alert
     diagnostic:
       name: "diagnostic"
+      icon: mdi:face-agent
     service_request:
       name: "service request"
+      icon: mdi:account-wrench
     lockout_reset:
       name: "lockout reset"
+      icon: mdi:lock-reset
     water_pressure_fault:
       name: "water pressure fault"
+      icon: mdi:gauge-empty
     gas_flame_fault:
       name: "gas/flame fault"
+      icon: mdi:gas-burner
     air_pressure_fault:
       name: "air pressure fault"
+      icon: mdi:cloud-alert-outline
     water_over_temperature_fault:
       name: "water over temperature fault"
+      icon: mdi:coolant-temperature
     dhw_present:
-      name: "DHW present (= true, not present = false)"
+      name: "DHW present" # (= true, not present = false)
     modulating:
-      name: "boiler uses modulating (= true, on/off = false)"
+      name: "boiler uses modulating" # (= true, on/off = false)
     cooling_supported:
-      name: "cooling supported (= true, unsupported = false)"
+      name: "cooling supported" # (= true, unsupported = false)
     dhw_storage_tank:
-      name: "DHW storage tank (= true, instantaneous/unsupported = false)"
+      name: "DHW storage tank" # (= true, instantaneous/unsupported = false)
     device_lowoff_pump_control:
-      name: "device low-off/pump control allowed (= true, not allowed = false)"
+      name: "device low-off/pump control allowed" # (= true, not allowed = false)
     ch_2_present:
-      name: "CH 2 present (= true, not present = false)"
-
+      name: "CH 2 present" # (= true, not present = false)
+      
 switch:
   - platform: opentherm
     ch_enabled:
       name: "CH enabled"
+      icon: mdi:radiator
+      id: ch_enabled
     ch_2_enabled:
-      name: "CH 2 enabled"
+      name: "ECO enabled"
+      icon: mdi:sprout
+      id: ch_2_enabled
     dhw_enabled:
       name: "DHW enabled"
+      icon: mdi:water-boiler
+      id: dhw_enabled
     otc_active:
       name: "OTC active"
-
+             
 number:
   - platform: opentherm
     ch_setpoint_temperature:
       name: "CH setpoint temperature"
-      min_value: 20.0
-      max_value: 45.0
+      min_value: 10.0
+      max_value: 85.0
       step: 0.5
       restore_value: true
-    ch_2_setpoint_temperature:
-      name: "CH 2 setpoint temperature"
-      min_value: 20.0
-      max_value: 45.0
-      step: 0.5
-      restore_value: true
+      id: ch_num
     dhw_setpoint_temperature:
       name: "DHW setpoint temperature"
-      min_value: 38.0
+      min_value: 35.0
       max_value: 60.0
-      step: 0.5
+      step: 1
       restore_value: true
+      id: dhw_num
 
+climate:
+  - platform: pid
+    id: pid_climate
+    name: "PID Climate Controller"
+    sensor: room_t
+    default_target_temperature: 24°C
+    heat_output: pid_output
+    control_parameters:
+      kp: 0.0
+      ki: 0.0
+      kd: 0.0
+    on_state:
+      lambda: !lambda |-
+        if (id(pid_climate).mode == 3) {
+          id(ch_enabled).turn_on();
+        } else {
+          id(ch_enabled).turn_off();
+        }       
+
+output:
+  - platform: template
+    id: pid_output
+    type: float
+    write_action:
+      - number.set:
+          id: ch_num
+          value:  !lambda return (state + 18);
 button:
+  - platform: restart
+    name: "${devicename} Restart"
+
   - platform: opentherm
     boiler_lo_reset:
       name: "Boiler lock-out reset"
     ch_water_filling:
       name: "CH water filling"
+      
+  - platform: template
+    name: "PID автонастройка"
+    on_press:
+      - climate.pid.autotune: pid_climate     
+
+time:
+  - platform: sntp
+    id: homeassistant_time
+    timezone:  Europe/Moscow 
+    servers: !secret sntp
+
+web_server:
+  port: 80
+  auth:
+    username: !secret web_user
+    password: !secret web_pass 
 ```
