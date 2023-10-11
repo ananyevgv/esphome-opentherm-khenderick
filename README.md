@@ -29,6 +29,7 @@ Feel free to help me out and open a PR with improvements.
 
 Note that the connected boiler might not support all sensors. If warnings are reported about unknown messages
 it usually means that the related sensor isn't supported. In that case, just remove that sensor from the config.
+![image](https://github.com/ananyevgv/esphome-opentherm-khenderick/assets/81970899/599aa7e4-9176-4a52-aaff-a4bcd997ac89)
 
 
 
