@@ -32,9 +32,3 @@ it usually means that the related sensor isn't supported. In that case, just rem
 
 
 
-web_server:
-  port: 80
-  auth:
-    username: !secret web_user
-    password: !secret web_pass 
-```
