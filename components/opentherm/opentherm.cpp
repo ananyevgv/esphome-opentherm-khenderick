@@ -30,7 +30,25 @@ void OpenThermComponent::setup() {
 
   this->start_millis_ = millis();
   this->start_interval_ = this->get_update_interval() / 24;
+  
+  unsigned long request3 = ot.buildRequest(OpenThermRequestType::READ, OpenThermMessageID::SConfigSMemberIDcode, 0xFFFF);
+  unsigned long respons3 = ot.sendRequest(request3);
+  uint8_t SlaveMemberIDcode = respons3 >> 0 & 0xFF;
+  uint8_t flags = (respons3 & 0xFFFF) >> 8 & 0xFF;
 
+  ESP_LOGD ("opentherm_component", "SConfigSMemberIDcode %X", request3 );
+
+  unsigned long request2 = ot.buildRequest(OpenThermRequestType::WRITE, OpenThermMessageID::MConfigMMemberIDcode, SlaveMemberIDcode);
+  unsigned long respons2 = ot.sendRequest(request2);
+  ESP_LOGD ("opentherm_component", "MConfigMMemberIDcode %X",  request2 ); 
+
+  unsigned long request127 = ot.buildRequest(OpenThermRequestType::READ, OpenThermMessageID::SlaveVersion, 0);
+  ESP_LOGD ("opentherm_component", "SlaveVersion %X",  request127 ); 
+
+  unsigned long request126 = ot.buildRequest(OpenThermRequestType::WRITE, OpenThermMessageID::MasterVersion, 0x013F);
+  unsigned long respons126 = ot.sendRequest(request126);
+  ESP_LOGD ("opentherm_component", "MasterVersion %X",  request126 ); 
+  
 #ifdef USE_SWITCH
   if (this->ch_enabled_switch_) {
     this->ch_enabled_switch_->add_on_state_callback([this](bool enabled) {
