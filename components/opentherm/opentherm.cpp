@@ -32,7 +32,11 @@ void OpenThermComponent::setup() {
   this->start_interval_ = this->get_update_interval() / 24;
   
   this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_CONFIGURATION, 0xFFFF);
-  this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_CONFIGURATION,);
+  this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_CONFIGURATION, 0xFFFF);
+  
+    //  uint8_t SlaveMemberIDcode = respons3 >> 0 & 0xFF;
+    //  this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_CONFIGURATION, SlaveMemberIDcode); 
+  
   this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_VERSION, 0);
   this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_VERSION, 0x013F);  
   
