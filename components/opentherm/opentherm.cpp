@@ -31,12 +31,15 @@ void OpenThermComponent::setup() {
   this->start_millis_ = millis();
   this->start_interval_ = this->get_update_interval() / 24;
   
-  this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_CONFIGURATION, 0xFFFF);
-      // unsigned long request3 = ot.buildRequest(OpenThermRequestType::READ, OpenThermMessageID::SConfigSMemberIDcode, 0xFFFF);
-     // unsigned long respons3 = ot.sendRequest(request3);
+  this->request3(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_CONFIGURATION, 0xFFFF);
+  
+    // this->temperature_to_data_(this->ch_setpoint_temperature_number_->state));
+    // unsigned long request3 = ot.buildRequest(OpenThermRequestType::READ, OpenThermMessageID::SConfigSMemberIDcode, 0xFFFF);
+    // unsigned long respons3 = ot.sendRequest(request3);
     //  uint8_t SlaveMemberIDcode = respons3 >> 0 & 0xFF;
     //  uint8_t flags = (respons3 & 0xFFFF) >> 8 & 0xFF;
-//  this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_CONFIGURATION, SlaveMemberIDcode);
+    //  this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_CONFIGURATION, SlaveMemberIDcode);
+  
   this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_VERSION, 0);
   this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::DEVICE_VERSION, 0x013F);  
   
