@@ -31,7 +31,7 @@ void OpenThermComponent::setup() {
   this->start_millis_ = millis();
   this->start_interval_ = this->get_update_interval() / 24;
   
-  this->request_3(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_CONFIGURATION, 0xFFFF);
+  this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::BOILER_CONFIGURATION, 0xFFFF);
   
     // this->temperature_to_data_(this->ch_setpoint_temperature_number_->state));
     // unsigned long request3 = ot.buildRequest(OpenThermRequestType::READ, OpenThermMessageID::SConfigSMemberIDcode, 0xFFFF);
