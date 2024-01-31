@@ -54,6 +54,8 @@ class OpenThermComponent : public PollingComponent {
   sensor::Sensor *dhw_pump_valve_ops_hours_sensor_{nullptr};
   sensor::Sensor *dhw_burner_starts_sensor_{nullptr};
   sensor::Sensor *dhw_burner_ops_hours_sensor_{nullptr};
+  sensor::Sensor otc_ratio_ub_sensor_{nullptr};
+  sensor::Sensor otc_ratio_ul_sensor_{nullptr};
 #endif
 #ifdef USE_BINARY_SENSOR
   binary_sensor::BinarySensor *ch_active_binary_sensor_{nullptr};
@@ -91,6 +93,10 @@ class OpenThermComponent : public PollingComponent {
   opentherm::CustomNumber *ch_setpoint_temperature_number_{nullptr};
   opentherm::CustomNumber *ch_2_setpoint_temperature_number_{nullptr};
   opentherm::CustomNumber *dhw_setpoint_temperature_number_{nullptr};
+  opentherm::CustomNumber *t_room_temperature_number_{nullptr};
+  opentherm::CustomNumber *t_room_set_temperature_number_{nullptr};
+  opentherm::CustomNumber *otc_set_ratio_number_{nullptr};
+
 #endif
 
   OpenThermComponent() = default;
@@ -127,6 +133,10 @@ class OpenThermComponent : public PollingComponent {
   void set_dhw_pump_valve_ops_hours_sensor(sensor::Sensor *sensor) { dhw_pump_valve_ops_hours_sensor_ = sensor; }
   void set_dhw_burner_starts_sensor(sensor::Sensor *sensor) { dhw_burner_starts_sensor_ = sensor; }
   void set_dhw_burner_ops_hours_sensor(sensor::Sensor *sensor) { dhw_burner_ops_hours_sensor_ = sensor; }
+  void set_otc_ratio_ub_sensor(sensor::Sensor *sensor) { otc_ratio_ub_sensor_ = sensor; }
+  void set_otc_ratio_lb_sensor(sensor::Sensor *sensor) { otc_ratio_lb_sensor_ = sensor; }
+
+
 #endif
 #ifdef USE_BINARY_SENSOR
   void set_ch_active_binary_sensor(binary_sensor::BinarySensor *sensor) { ch_active_binary_sensor_ = sensor; }
@@ -184,12 +194,15 @@ class OpenThermComponent : public PollingComponent {
   void set_dhw_setpoint_temperature_number(opentherm::CustomNumber *number) {
     dhw_setpoint_temperature_number_ = number;
   }
+  void set_t_room_temperature_number(opentherm::CustomNumber *number) { t_room_temperature_number_ = number; }
+  void set_t_room_set_temperature_number(opentherm::CustomNumber *number) { t_room_set_temperature_number_ = number; }
+  void set_otc_set_ratio_number(opentherm::CustomNumber *number) { otc_set_ratio_number_ = number; }
 #endif
   void boiler_lo_reset();
   void ch_water_filling();
 
  private:
-  InternalGPIOPin *read_pin_;
+  InternalGPIOPin *read_pin_;_
   InternalGPIOPin *write_pin_;
   ISRInternalGPIOPin isr_read_pin_;
 
