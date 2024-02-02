@@ -41,6 +41,9 @@ CONF_DHW_PUMP_VALVE_STARTS = "dhw_pump_valve_starts"
 CONF_DHW_PUMP_VALVE_OPS_HOURS = "dhw_pump_valve_ops_hours"
 CONF_DHW_BURNER_STARTS = "dhw_burner_starts"
 CONF_DHW_BURNER_OPS_HOURS = "dhw_burner_ops_hours"
+CONF_OTC_RATIO_UPPER = "otc_ratio_upper"
+CONF_OTC_RATIO_LOWER = "otc_ratio_lower"
+CONF_OTC_RATIO = "otc_ratio"
 
 ICON_HOME_THERMOMETER = "mdi:home-thermometer"
 ICON_WATER_THERMOMETER = "mdi:water-thermometer"
@@ -73,6 +76,9 @@ TYPES = [
     CONF_DHW_PUMP_VALVE_OPS_HOURS,
     CONF_DHW_BURNER_STARTS,
     CONF_DHW_BURNER_OPS_HOURS,
+    CONF_OTC_RATIO_UPPER,
+    CONF_OTC_RATIO_LOWER,
+    CONF_OTC_RATIO,
 ]
 
 CONFIG_SCHEMA = cv.All(
@@ -230,7 +236,25 @@ CONFIG_SCHEMA = cv.All(
                 icon=ICON_TIMER,
                 accuracy_decimals=0,
                 device_class=DEVICE_CLASS_EMPTY,
+            ),  
+            cv.Optional(CONF_OTC_RATIO_UPPER): sensor.sensor_schema(
+                unit_of_measurement=UNIT_EMPTY,
+                icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
+                accuracy_decimals=0,
+                device_class= STATE_CLASS_NONE,
             ),
+            cv.Optional(CONF_OTC_RATIO_LOWER): sensor.sensor_schema(
+                unit_of_measurement=UNIT_EMPTY,
+                icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
+                accuracy_decimals=0,
+                device_class= STATE_CLASS_NONE,
+            ),
+            cv.Optional(CONF_OTC_RATIO): sensor.sensor_schema(
+                unit_of_measurement=UNIT_EMPTY,
+                icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
+                accuracy_decimals=0,
+                device_class= STATE_CLASS_NONE,
+            ), 
         }
     ).extend(cv.COMPONENT_SCHEMA)
 )
