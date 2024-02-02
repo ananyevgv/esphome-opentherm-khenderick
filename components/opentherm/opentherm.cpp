@@ -114,7 +114,7 @@ void OpenThermComponent::setup() {
     this->room_temperature_number_->add_on_state_callback(
         [](float temperature) { ESP_LOGI(TAG, "Request updating Room setpoint to %f", temperature); });
   }
- if (this-otc_set_ratio_number_) {
+ if (this->otc_set_ratio_number_) {
     this->otc_set_ratio_number_->setup();
     this->otc_set_ratio_number_->add_on_state_callback(
         [](float ratio) { ESP_LOGI(TAG, "Request updating OTC ratio to %f", ratio); });
