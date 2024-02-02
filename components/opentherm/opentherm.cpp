@@ -103,6 +103,22 @@ void OpenThermComponent::setup() {
     this->dhw_setpoint_temperature_number_->add_on_state_callback(
         [](float temperature) { ESP_LOGI(TAG, "Request updating CH setpoint to %f", temperature); });
   }
+
+  if (this->t_room_set_temperature_number_) {
+    this->t_room_set_temperature_number_->setup();
+    this->t_room_set_temperature_number_->add_on_state_callback(
+        [](float temperature) { ESP_LOGI(TAG, "Request updating Room set setpoint to %f", temperature); });
+  }
+  if (this->t_room_temperature_number_) {
+    this->t_room_temperature_number_->setup();
+    this->t_room_temperature_number_->add_on_state_callback(
+        [](float temperature) { ESP_LOGI(TAG, "Request updating Room setpoint to %f", temperature); });
+  }
+ if (this-otc_ratio_number_) {
+    this->otc_ratio_number_->setup();
+    this->otc_ratio_number_->add_on_state_callback(
+        [](float ratio) { ESP_LOGI(TAG, "Request updating OTC ratio to %f", ratio); });
+  }
 #endif
 }
 
