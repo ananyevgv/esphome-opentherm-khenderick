@@ -202,7 +202,7 @@ class OpenThermComponent : public PollingComponent {
   void ch_water_filling();
 
  private:
-  InternalGPIOPin *read_pin_;_
+  InternalGPIOPin *read_pin_;
   InternalGPIOPin *write_pin_;
   ISRInternalGPIOPin isr_read_pin_;
 
