@@ -114,9 +114,9 @@ void OpenThermComponent::setup() {
     this->room_temperature_number_->add_on_state_callback(
         [](float temperature) { ESP_LOGI(TAG, "Request updating Room setpoint to %f", temperature); });
   }
- if (this-otc_ratio_number_) {
-    this->otc_ratio_number_->setup();
-    this->otc_ratio_number_->add_on_state_callback(
+ if (this-otc_set_ratio_number_) {
+    this->otc_set_ratio_number_->setup();
+    this->otc_set_ratio_number_->add_on_state_callback(
         [](float ratio) { ESP_LOGI(TAG, "Request updating OTC ratio to %f", ratio); });
   }
 #endif
@@ -156,16 +156,16 @@ void OpenThermComponent::loop() {
                        this->temperature_to_data_(this->otc_set_ratio_number_->state));
       }
     }
-    if (this->t_room_set_temperature_number_) {
-      if (this->confirmed_t_room_set_ != this->t_room_set_temperature_number_->state) {
+    if (this->room_set_temperature_number_) {
+      if (this->confirmed_room_set_ != this->room_set_temperature_number_->state) {
         this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::ROOM_SETPOINT,
-                       this->temperature_to_data_(this->t_room_set_temperature_number_->state));
+                       this->temperature_to_data_(this->room_set_temperature_number_->state));
       }
     }
-    if (this->t_room_temperature_number_) {
-      if (this->confirmed_t_room_ != this->t_room_temperature_number_->state) {
+    if (this->room_temperature_number_) {
+      if (this->confirmed_room_ != this->room_temperature_number_->state) {
         this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::ROOM_TEMP,
-                       this->temperature_to_data_(this->t_room_temperature_number_->state));
+                       this->temperature_to_data_(this->room_temperature_number_->state));
       }
     }    
   }
