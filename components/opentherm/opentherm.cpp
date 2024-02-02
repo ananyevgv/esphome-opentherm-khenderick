@@ -284,7 +284,7 @@ void OpenThermComponent::dump_config() {
   LOG_SENSOR("  ", "DHW burner starts:", this->dhw_burner_starts_sensor_);
   LOG_SENSOR("  ", "DHW burner operation hours:", this->dhw_burner_ops_hours_sensor_);
   LOG_SENSOR("  ", "OTC ratio upper:", this->otc_ratio_upper_sensor_);
-  LOG_SENSOR("  ", "OTC ratio lower:", this->dotc_ratio_lower_sensor_);
+  LOG_SENSOR("  ", "OTC ratio lower:", this->otc_ratio_lower_sensor_);
   LOG_SENSOR("  ", "OTC ratio:", this->otc_ratio_sensor_);
 #endif
 #ifdef USE_BINARY_SENSOR
