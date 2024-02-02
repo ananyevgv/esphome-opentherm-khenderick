@@ -23,6 +23,10 @@ CustomNumber = opentherm.class_("CustomNumber", number.Number, cg.Component)
 CONF_CH_SETPOINT_TEMPERATURE = "ch_setpoint_temperature"
 CONF_CH_2_SETPOINT_TEMPERATURE = "ch_2_setpoint_temperature"
 CONF_DHW_SETPOINT_TEMPERATURE = "dhw_setpoint_temperature"
+CONF_T_ROOM_TEMPERATURE = "t_room_temperature"
+CONF_T_ROOM_SET_TEMPERATURE = "t_room_set_temperature"
+CONF_OTC_SET_RATIO = "otc_set_ratio"
+
 
 ICON_HOME_THERMOMETER = "mdi:home-thermometer"
 ICON_WATER_THERMOMETER = "mdi:water-thermometer"
@@ -31,6 +35,9 @@ TYPES = [
     CONF_CH_SETPOINT_TEMPERATURE,
     CONF_CH_2_SETPOINT_TEMPERATURE,
     CONF_DHW_SETPOINT_TEMPERATURE,
+    CONF_T_ROOM_TEMPERATURE,
+    CONF_T_ROOM_SET_TEMPERATURE,
+    CONF_OTC_SET_RATIO,
 ]
 
 CONFIG_SCHEMA = cv.All(
