@@ -212,13 +212,13 @@ void OpenThermComponent::update_spread_() {
   }
 
   if (this->otc_ratio_upper_sensor_ && this->should_request_(this->last_millis_otc_ratio_upper_, 21)) {
-    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
+    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::HCRATIOUBHCRATIOLB, 0);
   }
   if (this->otc_ratio_lower_sensor_ && this->should_request_(this->last_millis_otc_ratio_lower_, 22)) {
-    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
+    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::HCRATIOUBHCRATIOLB, 0);
   }
   if (this->otc_ratio_sensor_ && this->should_request_(this->last_millis_otc_ratio_, 23)) {
-    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
+    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::HCRATIO, 0);
   }    
 #endif
 #if defined USE_BINARY_SENSOR || defined USE_SENSOR
@@ -649,11 +649,11 @@ void OpenThermComponent::process_response_(uint32_t response, OpenThermResponseS
         this->publish_sensor_state_(this->ch_max_temperature_sensor_, response >> 8 & 0xFF);
         this->publish_sensor_state_(this->ch_min_temperature_sensor_, response & 0xFF);
         break;
-      case OpenThermMessageID::HcratioUBHcratioLB:
+      case OpenThermMessageID::HCRATIOUBHCRATIOLB: 
         this->publish_sensor_state_(this->otc_ratio_upper_sensor_, response >> 8 & 0xFF);
         this->publish_sensor_state_(this->otc_ratio_lower_sensor_, response & 0xFF);
         break;
-      case OpenThermMessageID::Hcratio:
+      case OpenThermMessageID::HCRATIO:
         this->publish_sensor_state_(this->otc_ratio_sensor_, this->get_float_(response));
         break; 
 #endif
