@@ -149,6 +149,25 @@ void OpenThermComponent::loop() {
                        this->temperature_to_data_(this->dhw_setpoint_temperature_number_->state));
       }
     }
+
+    if (this->otc_set_ratio_number_) {
+      if (this->confirmed_otc_set_ratio_ != this->otc_set_ratio_number_->state) {
+        this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::HCRATIO,
+                       this->temperature_to_data_(this->otc_set_ratio_number_->state));
+      }
+    }
+    if (this->t_room_set_temperature_number_) {
+      if (this->confirmed_t_room_set_ != this->t_room_set_temperature_number_->state) {
+        this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::ROOM_SETPOINT,
+                       this->temperature_to_data_(this->t_room_set_temperature_number_->state));
+      }
+    }
+    if (this->t_room_temperature_number_) {
+      if (this->confirmed_t_room_ != this->t_room_temperature_number_->state) {
+        this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::ROOM_TEMP,
+                       this->temperature_to_data_(this->t_room_temperature_number_->state));
+      }
+    }    
   }
 #endif
 
