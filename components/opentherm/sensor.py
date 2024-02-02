@@ -47,7 +47,7 @@ CONF_OTC_RATIO = "otc_ratio"
 
 ICON_HOME_THERMOMETER = "mdi:home-thermometer"
 ICON_WATER_THERMOMETER = "mdi:water-thermometer"
-
+ICON_CHART_BELL_CURVE_CUMULATIVE = "mdi:chart-bell-curve-cumulative"
 UNIT_BAR = "bar"
 UNIT_LITERS_PER_MIN = "L/min"
 
@@ -241,19 +241,19 @@ CONFIG_SCHEMA = cv.All(
                 unit_of_measurement=UNIT_EMPTY,
                 icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
                 accuracy_decimals=0,
-                device_class= STATE_CLASS_NONE,
+                device_class= DEVICE_CLASS_EMPTY,
             ),
             cv.Optional(CONF_OTC_RATIO_LOWER): sensor.sensor_schema(
                 unit_of_measurement=UNIT_EMPTY,
                 icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
                 accuracy_decimals=0,
-                device_class= STATE_CLASS_NONE,
+                device_class= DEVICE_CLASS_EMPTY,
             ),
             cv.Optional(CONF_OTC_RATIO): sensor.sensor_schema(
                 unit_of_measurement=UNIT_EMPTY,
                 icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
                 accuracy_decimals=0,
-                device_class= STATE_CLASS_NONE,
+                device_class= DEVICE_CLASS_EMPTY,
             ), 
         }
     ).extend(cv.COMPONENT_SCHEMA)
