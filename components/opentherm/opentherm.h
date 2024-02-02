@@ -54,8 +54,8 @@ class OpenThermComponent : public PollingComponent {
   sensor::Sensor *dhw_pump_valve_ops_hours_sensor_{nullptr};
   sensor::Sensor *dhw_burner_starts_sensor_{nullptr};
   sensor::Sensor *dhw_burner_ops_hours_sensor_{nullptr};
-  sensor::Sensor otc_ratio_ub_sensor_{nullptr};
-  sensor::Sensor otc_ratio_ul_sensor_{nullptr};
+  sensor::Sensor otc_ratio_upper_sensor_{nullptr};
+  sensor::Sensor otc_ratio_lower_sensor_{nullptr};
 #endif
 #ifdef USE_BINARY_SENSOR
   binary_sensor::BinarySensor *ch_active_binary_sensor_{nullptr};
@@ -133,8 +133,8 @@ class OpenThermComponent : public PollingComponent {
   void set_dhw_pump_valve_ops_hours_sensor(sensor::Sensor *sensor) { dhw_pump_valve_ops_hours_sensor_ = sensor; }
   void set_dhw_burner_starts_sensor(sensor::Sensor *sensor) { dhw_burner_starts_sensor_ = sensor; }
   void set_dhw_burner_ops_hours_sensor(sensor::Sensor *sensor) { dhw_burner_ops_hours_sensor_ = sensor; }
-  void set_otc_ratio_ub_sensor(sensor::Sensor *sensor) { otc_ratio_ub_sensor_ = sensor; }
-  void set_otc_ratio_lb_sensor(sensor::Sensor *sensor) { otc_ratio_lb_sensor_ = sensor; }
+  void set_otc_ratio_upper_sensor(sensor::Sensor *sensor) { otc_ratio_upper_sensor_ = sensor; }
+  void set_otc_ratio_lower_sensor(sensor::Sensor *sensor) { otc_ratio_lower_sensor_ = sensor; }
 
 
 #endif
