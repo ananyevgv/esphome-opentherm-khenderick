@@ -247,6 +247,10 @@ class OpenThermComponent : public PollingComponent {
   uint32_t last_millis_dhw_burner_starts_ = 0;
   uint32_t last_millis_dhw_burner_ops_hours_ = 0;
   uint32_t last_millis_boiler_configuration_ = 0;
+  uint32_t last_millis_otc_ratio_upper_ = 0;
+  uint32_t last_millis_otc_ratio_lower_ = 0;
+  uint32_t last_millis_otc_ratio_ = 0;
+
 
   void update_spread_();
 
