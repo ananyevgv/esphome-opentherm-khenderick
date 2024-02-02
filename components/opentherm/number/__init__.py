@@ -24,8 +24,8 @@ CustomNumber = opentherm.class_("CustomNumber", number.Number, cg.Component)
 CONF_CH_SETPOINT_TEMPERATURE = "ch_setpoint_temperature"
 CONF_CH_2_SETPOINT_TEMPERATURE = "ch_2_setpoint_temperature"
 CONF_DHW_SETPOINT_TEMPERATURE = "dhw_setpoint_temperature"
-CONF_ROOM_TEMPERATURE = "t_room_temperature"
-CONF_ROOM_SET_TEMPERATURE = "t_room_set_temperature"
+CONF_ROOM_TEMPERATURE = "room_temperature"
+CONF_ROOM_SET_TEMPERATURE = "room_set_temperature"
 CONF_OTC_SET_RATIO = "otc_set_ratio"
 
 
