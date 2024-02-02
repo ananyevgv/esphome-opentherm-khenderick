@@ -54,9 +54,9 @@ class OpenThermComponent : public PollingComponent {
   sensor::Sensor *dhw_pump_valve_ops_hours_sensor_{nullptr};
   sensor::Sensor *dhw_burner_starts_sensor_{nullptr};
   sensor::Sensor *dhw_burner_ops_hours_sensor_{nullptr};
-  sensor::Sensor otc_ratio_upper_sensor_{nullptr};
-  sensor::Sensor otc_ratio_lower_sensor_{nullptr};
-  sensor::Sensor otc_ratio_{nullptr};
+  sensor::Sensor *otc_ratio_upper_sensor_{nullptr};
+  sensor::Sensor *otc_ratio_lower_sensor_{nullptr};
+  sensor::Sensor *otc_ratio_{nullptr};
 #endif
 #ifdef USE_BINARY_SENSOR
   binary_sensor::BinarySensor *ch_active_binary_sensor_{nullptr};
