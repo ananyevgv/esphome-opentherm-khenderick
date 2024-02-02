@@ -94,8 +94,8 @@ class OpenThermComponent : public PollingComponent {
   opentherm::CustomNumber *ch_setpoint_temperature_number_{nullptr};
   opentherm::CustomNumber *ch_2_setpoint_temperature_number_{nullptr};
   opentherm::CustomNumber *dhw_setpoint_temperature_number_{nullptr};
-  opentherm::CustomNumber *t_room_temperature_number_{nullptr};
-  opentherm::CustomNumber *t_room_set_temperature_number_{nullptr};
+  opentherm::CustomNumber *room_temperature_number_{nullptr};
+  opentherm::CustomNumber *room_set_temperature_number_{nullptr};
   opentherm::CustomNumber *otc_set_ratio_number_{nullptr};
 
 #endif
@@ -195,8 +195,8 @@ class OpenThermComponent : public PollingComponent {
   void set_dhw_setpoint_temperature_number(opentherm::CustomNumber *number) {
     dhw_setpoint_temperature_number_ = number;
   }
-  void set_t_room_temperature_number(opentherm::CustomNumber *number) { t_room_temperature_number_ = number; }
-  void set_t_room_set_temperature_number(opentherm::CustomNumber *number) { t_room_set_temperature_number_ = number; }
+  void set_room_temperature_number(opentherm::CustomNumber *number) { room_temperature_number_ = number; }
+  void set_room_set_temperature_number(opentherm::CustomNumber *number) { room_set_temperature_number_ = number; }
   void set_otc_set_ratio_number(opentherm::CustomNumber *number) { otc_set_ratio_number_ = number; }
 #endif
   void boiler_lo_reset();
