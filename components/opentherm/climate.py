@@ -16,8 +16,9 @@ DEPENDENCIES = ["opentherm"]
 
 _LOGGER = logging.getLogger(__name__)
 
-CONF_HOT_WATER = "hotwater"
-CONF_HEATING_WATER = "heatingwater"
+CONF_CH_WATER = "ch_water"
+CONF_CH2_WATER = "ch_water"
+CONF_DHW_WATER = "dhw_water"
 
 opentherm_ns = cg.esphome_ns.namespace("opentherm")
 OpenThermClimate = opentherm_ns.class_("OpenthermClimate", climate.Climate, cg.Component)
@@ -25,19 +26,24 @@ OpenThermClimate = opentherm_ns.class_("OpenthermClimate", climate.Climate, cg.C
 CONFIG_SCHEMA = (
     cv.Schema(
         {
-            cv.Optional(CONF_HOT_WATER): climate.CLIMATE_SCHEMA.extend(
+            cv.Optional(CONF_CH_WATER): climate.CLIMATE_SCHEMA.extend(
                 {
                     cv.GenerateID(): cv.declare_id(OpenThermClimate),
                 }
             ).extend(opentherm_component_schema())
             .extend(cv.COMPONENT_SCHEMA),
-            cv.Optional(CONF_HEATING_WATER): climate.CLIMATE_SCHEMA.extend(
+            cv.Optional(CONF_CH2_WATER): climate.CLIMATE_SCHEMA.extend(
                 {
                     cv.GenerateID(): cv.declare_id(OpenThermClimate),
                 }
             ).extend(opentherm_component_schema())
-            .extend(cv.COMPONENT_SCHEMA)
-
+            .extend(cv.COMPONENT_SCHEMA),
+            cv.Optional(CONF_DHW_WATER): climate.CLIMATE_SCHEMA.extend(
+                {
+                    cv.GenerateID(): cv.declare_id(OpenThermClimate),
+                }
+            ).extend(opentherm_component_schema())
+            .extend(cv.COMPONENT_SCHEMA),
         }
     )
     .extend(opentherm_component_schema())
@@ -51,14 +57,19 @@ async def to_code(config):
     _LOGGER.info("to_code: %s", config)
 
 
-    if CONF_HOT_WATER in config:
-        hotwater_climate = cg.new_Pvariable(config[CONF_HOT_WATER][CONF_ID])
-        await cg.register_component(hotwater_climate, config[CONF_HOT_WATER])
-        await climate.register_climate(hotwater_climate, config[CONF_HOT_WATER])
-        await set_hotwater_climate(hotwater_climate, config[CONF_HOT_WATER])
-
-    if CONF_HEATING_WATER in config:
-        heatingwater_climate = cg.new_Pvariable(config[CONF_HEATING_WATER][CONF_ID])
-        await cg.register_component(heatingwater_climate, config[CONF_HEATING_WATER])
-        await climate.register_climate(heatingwater_climate, config[CONF_HEATING_WATER])
-        await set_heatingwater_climate(heatingwater_climate, config[CONF_HEATING_WATER])
+    if CONF_CH_WATER in config:
+        hotwater_climate = cg.new_Pvariable(config[CONF_CH_WATER][CONF_ID])
+        await cg.register_component(chwater_climate, config[CONF_CH_WATER])
+        await climate.register_climate(chwater_climate, config[CONF_CH_WATER])
+        await set_chwater_climate(chwater_climate, config[CONF_CH_WATER])
+    if CONF_CH2_WATER in config:
+        hotwater_climate = cg.new_Pvariable(config[CONF_CH2_WATER][CONF_ID])
+        await cg.register_component(ch2water_climate, config[CONF_CH2_WATER])
+        await climate.register_climate(ch2water_climate, config[CONF_CH2_WATER])
+        await set_ch2water_climate(ch2water_climate, config[CONF_CH2_WATER])
+    
+    if CONF_DHW_WATER in config:
+        heatingwater_climate = cg.new_Pvariable(config[CONF_DHW_WATER][CONF_ID])
+        await cg.register_component(dhwwater_climate, config[CONF_DHW_WATER])
+        await climate.register_climate(dhwwater_climate, config[CONF_DHW_WATER])
+        await set_dhw_climate(dhwwater_climate, config[CONF_DHW_WATER])
