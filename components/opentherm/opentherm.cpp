@@ -230,6 +230,10 @@ void OpenThermComponent::update_spread_() {
   if (this->dhw_burner_ops_hours_sensor_ && this->should_request_(this->last_millis_dhw_burner_ops_hours_, 20)) {
     this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
   }
+  if ((this->otc_ratio_max_sensor_ || this->otc_ratio_min_sensor) && 
+      this->should_request_(this->last_millis_otc_ratio_max_min_, 21)) {
+    this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::HCRATIOUBHCRATIOLB, 0);
+  }
   
 #endif
 #if defined USE_BINARY_SENSOR || defined USE_SENSOR
@@ -307,6 +311,8 @@ void OpenThermComponent::dump_config() {
   LOG_SENSOR("  ", "DHW burner starts:", this->dhw_burner_starts_sensor_);
   LOG_SENSOR("  ", "DHW burner operation hours:", this->dhw_burner_ops_hours_sensor_);
   LOG_SENSOR("  ", "Boiler member ID:", this->boiler_member_id_sensor_);
+  LOG_SENSOR("  ", "OTC ratio max:", this->otc_ratio_max_sensor_);
+  LOG_SENSOR("  ", "OTC ratio min:", this->otc_ratio_min_sensor_);
 #endif
 #ifdef USE_BINARY_SENSOR
   LOG_BINARY_SENSOR("  ", "CH active:", this->ch_active_binary_sensor_);
@@ -688,6 +694,10 @@ void OpenThermComponent::process_response_(uint32_t response, OpenThermResponseS
       case OpenThermMessageID::CH_TEMP_MAX_MIN:
         this->publish_sensor_state_(this->ch_max_temperature_sensor_, response >> 8 & 0xFF);
         this->publish_sensor_state_(this->ch_min_temperature_sensor_, response & 0xFF);
+        break;
+      case OpenThermMessageID::HCRATIOUBHCRATIOLB: 
+        this->publish_sensor_state_(this->otc_ratio_max_sensor_, response >> 8 & 0xFF);
+        this->publish_sensor_state_(this->otc_ratio_min_sensor_, response & 0xFF);
         break;
 #endif
       case OpenThermMessageID::DHW_SETPOINT:
