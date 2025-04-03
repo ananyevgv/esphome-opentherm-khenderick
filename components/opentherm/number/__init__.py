@@ -11,7 +11,7 @@ from esphome.const import (
     ICON_GAUGE,
     UNIT_CELSIUS,
     UNIT_PERCENT,
-    UNIT_OF_MEASUREMENT,
+    UNIT_EMPTY,
 )
 from ...opentherm import (
     OpenThermComponent,
@@ -69,7 +69,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_OTC_SET_RATIO): number.number_schema(
                 OpenThermNumber,
                 icon=ICON_CHART_CURVE_CUMULATIVE,
-                unit_of_measurement=UNIT_OF_MEASUREMENT,
+                unit_of_measurement=UNIT_EMPTY,
             )
             .extend(
                 {
