@@ -80,6 +80,7 @@ enum OpenThermMessageID {
   ROOM_TEMP_OVERRIDE = 9,           // f8.8 -> Remote override room setpoint
   REMOTE_FCT_OVERRIDE = 100,  // flag8 / - -> Function of manual and program changes in device and remote room setpoint.
   HCRATIO = 58, // R W Hcratio f8.8 OTC heat curve ratio
+  HCRATIOUBHCRATIOLB = 50, // Hcratio-UB / Hcratio-LB s8 / s8 OTC heat curve ratio upper & lower bounds for adjustment
 };
 
 enum OpenThermStatus {
