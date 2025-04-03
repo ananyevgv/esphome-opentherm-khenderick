@@ -91,6 +91,10 @@ sensor:
       name: "DHW burner operation hours"
     boiler_member_id:
       name: "Boiler member ID"
+    otc_ratio_max:
+      name: "otc ratio max"
+    otc_ratio_min:
+      name: "otc ratio min"
 
 binary_sensor:
   - platform: opentherm
@@ -130,10 +134,7 @@ binary_sensor:
       name: "device low-off/pump control allowed (= true, not allowed = false)"
     ch_2_present:
       name: "CH 2 present (= true, not present = false)"
-    otc_ratio_max:
-      name: "otc ratio max"
-    otc_ratio_min:
-      name: "otc ratio min"
+
 
 switch:
   - platform: opentherm
