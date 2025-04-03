@@ -11,6 +11,7 @@ from esphome.const import (
     ICON_GAUGE,
     UNIT_CELSIUS,
     UNIT_PERCENT,
+    UNIT_OF_MEASUREMENT,
 )
 from ...opentherm import (
     OpenThermComponent,
@@ -27,9 +28,11 @@ CONF_CH_2_SETPOINT_TEMPERATURE = "ch_2_setpoint_temperature"
 CONF_DHW_SETPOINT_TEMPERATURE = "dhw_setpoint_temperature"
 CONF_MAX_CH_SETPOINT_TEMPERATURE = "max_ch_setpoint_temperature"
 CONF_MAX_MODULATION = "max_modulation"
+CONF_OTC_SET_RATIO = "otc_set_ratio"
 
 ICON_HOME_THERMOMETER = "mdi:home-thermometer"
 ICON_WATER_THERMOMETER = "mdi:water-thermometer"
+ICON_CHART_CURVE_CUMULATIVE = "mdi:chart-bell-curve-cumulative"
 
 TYPES = [
     CONF_CH_SETPOINT_TEMPERATURE,
@@ -37,6 +40,7 @@ TYPES = [
     CONF_DHW_SETPOINT_TEMPERATURE,
     CONF_MAX_CH_SETPOINT_TEMPERATURE,
     CONF_MAX_MODULATION,
+    CONF_OTC_SET_RATIO,
 ]
 
 CONFIG_SCHEMA = cv.All(
@@ -61,6 +65,26 @@ CONFIG_SCHEMA = cv.All(
                 }
             )
             .extend(cv.COMPONENT_SCHEMA),
+
+            cv.Optional(CONF_OTC_SET_RATIO): number.number_schema(
+                OpenThermNumber,
+                icon=ICON_CHART_CURVE_CUMULATIVE,
+                unit_of_measurement=UNIT_OF_MEASUREMENT,
+            )
+            .extend(
+                {
+                    cv.Required(CONF_MAX_VALUE): cv.float_,
+                    cv.Required(CONF_MIN_VALUE): cv.float_,
+                    cv.Required(CONF_STEP): cv.positive_float,
+                    cv.Optional(CONF_MODE, default="BOX"): cv.enum(
+                        number.NUMBER_MODES, upper=True
+                    ),
+                    cv.Optional(CONF_INITIAL_VALUE): cv.float_,
+                    cv.Optional(CONF_RESTORE_VALUE): cv.boolean,
+                }
+            )
+            .extend(cv.COMPONENT_SCHEMA),
+            
             cv.Optional(CONF_CH_2_SETPOINT_TEMPERATURE): number.number_schema(
                 OpenThermNumber,
                 icon=ICON_HOME_THERMOMETER,
