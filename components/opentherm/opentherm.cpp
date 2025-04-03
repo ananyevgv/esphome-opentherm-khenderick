@@ -230,7 +230,7 @@ void OpenThermComponent::update_spread_() {
   if (this->dhw_burner_ops_hours_sensor_ && this->should_request_(this->last_millis_dhw_burner_ops_hours_, 20)) {
     this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
   }
-  if ((this->otc_ratio_max_sensor_ || this->otc_ratio_min_sensor) && 
+  if ((this->otc_ratio_max_sensor_ || this->otc_ratio_min_sensor_) && 
       this->should_request_(this->last_millis_otc_ratio_max_min_, 21)) {
     this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::HCRATIOUBHCRATIOLB, 0);
   }
