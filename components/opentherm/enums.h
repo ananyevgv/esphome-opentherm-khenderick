@@ -79,6 +79,7 @@ enum OpenThermMessageID {
   MAX_CAPACITY_MIN_MOD_LEVEL = 15,  // u8 / u8 -> Maximum boiler capacity (kW) / Minimum boiler modulation level(%)
   ROOM_TEMP_OVERRIDE = 9,           // f8.8 -> Remote override room setpoint
   REMOTE_FCT_OVERRIDE = 100,  // flag8 / - -> Function of manual and program changes in device and remote room setpoint.
+  HCRATIO = 58, // R W Hcratio f8.8 OTC heat curve ratio
 };
 
 enum OpenThermStatus {
