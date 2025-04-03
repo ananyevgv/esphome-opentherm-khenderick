@@ -93,6 +93,7 @@ class OpenThermComponent : public PollingComponent {
   SUB_OPENTHERM_NUMBER(dhw_setpoint_temperature);
   SUB_OPENTHERM_NUMBER(max_ch_setpoint_temperature);
   SUB_OPENTHERM_NUMBER(max_modulation);
+  SUB_OPENTHERM_NUMBER(otc_set_ratio);
 #endif
 
  public:
