@@ -130,6 +130,10 @@ binary_sensor:
       name: "device low-off/pump control allowed (= true, not allowed = false)"
     ch_2_present:
       name: "CH 2 present (= true, not present = false)"
+    otc_ratio_max:
+      name: "otc ratio max"
+    otc_ratio_min:
+      name: "otc ratio min"
 
 switch:
   - platform: opentherm
@@ -173,6 +177,12 @@ number:
       min_value: 0.0
       max_value: 100.0
       step: 0.5
+      restore_value: true
+    otc_set_ratio:
+      name: "${last_name} OTC set ratio"
+      step: 1
+      min_value: 0.0
+      max_value: 60.0
       restore_value: true
 
 button:
