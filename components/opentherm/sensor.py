@@ -43,9 +43,12 @@ CONF_DHW_PUMP_VALVE_OPS_HOURS = "dhw_pump_valve_ops_hours"
 CONF_DHW_BURNER_STARTS = "dhw_burner_starts"
 CONF_DHW_BURNER_OPS_HOURS = "dhw_burner_ops_hours"
 CONF_MEMBER_ID = "boiler_member_id"
+CONF_OTC_RATIO_MAX = "otc_ratio_max"
+CONF_OTC_RATIO_MIN = "otc_ratio_min"
 
 ICON_HOME_THERMOMETER = "mdi:home-thermometer"
 ICON_WATER_THERMOMETER = "mdi:water-thermometer"
+ICON_CHART_BELL_CURVE_CUMULATIVE = "mdi:chart-bell-curve-cumulative"
 
 UNIT_BAR = "bar"
 UNIT_LITERS_PER_MIN = "L/min"
@@ -76,6 +79,8 @@ TYPES = [
     CONF_DHW_BURNER_STARTS,
     CONF_DHW_BURNER_OPS_HOURS,
     CONF_MEMBER_ID,
+    CONF_OTC_RATIO_MAX,
+    CONF_OTC_RATIO_MIN,
 ]
 
 CONFIG_SCHEMA = cv.All(
@@ -251,6 +256,20 @@ CONFIG_SCHEMA = cv.All(
                 device_class=DEVICE_CLASS_EMPTY,
                 entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
             ),
+            cv.Optional(CONF_OTC_RATIO_MAX): sensor.sensor_schema(
+                unit_of_measurement=UNIT_EMPTY,
+                icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
+                accuracy_decimals=0,
+                device_class= DEVICE_CLASS_EMPTY,
+            ),
+            cv.Optional(CONF_OTC_RATIO_MIN): sensor.sensor_schema(
+                unit_of_measurement=UNIT_EMPTY,
+                icon=ICON_CHART_BELL_CURVE_CUMULATIVE,
+                accuracy_decimals=0,
+                device_class= DEVICE_CLASS_EMPTY,
+            ),
+
+            
         }
     ).extend(cv.COMPONENT_SCHEMA)
 )
