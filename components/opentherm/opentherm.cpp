@@ -104,6 +104,11 @@ void OpenThermComponent::setup() {
     this->max_modulation_number_->add_on_state_callback(
         [](float modulation) { ESP_LOGI(TAG, "Request updating max modulation to %f", modulation); });
   }
+ if (this->otc_set_ratio_number_) {
+    this->otc_set_ratio_number_->setup();
+    this->otc_set_ratio_number_->add_on_state_callback(
+        [](float ratio) { ESP_LOGI(TAG, "Request updating OTC ratio to %f", ratio); });
+  }
 #endif
 }
 
@@ -143,6 +148,10 @@ void OpenThermComponent::loop() {
     if (this->max_modulation_number_) {
       this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::MAX_REL_MOD_LEVEL_SETTING,
                      this->temperature_to_data_(this->max_modulation_number_->state));
+    }
+    if (this->otc_set_ratio_number_) {
+      this->request_(OpenThermMessageType::WRITE_DATA, OpenThermMessageID::HCRATIO,
+                       this->temperature_to_data_(this->otc_set_ratio_number_->state));
     }
   }
 #endif
@@ -221,6 +230,7 @@ void OpenThermComponent::update_spread_() {
   if (this->dhw_burner_ops_hours_sensor_ && this->should_request_(this->last_millis_dhw_burner_ops_hours_, 20)) {
     this->request_(OpenThermMessageType::READ_DATA, OpenThermMessageID::DHW_BURNER_OPS_HOURS, 0);
   }
+  
 #endif
 #if defined USE_BINARY_SENSOR || defined USE_SENSOR
   if ((
@@ -350,6 +360,10 @@ void OpenThermComponent::dump_config() {
   if (this->max_modulation_number_) {
     LOG_NUMBER("  ", "Maximum modulation:", this->max_modulation_number_);
     this->max_modulation_number_->dump_custom_config("  ");
+  }
+  if (this->otc_set_ratio_number_) {
+    LOG_NUMBER("  ", "OTC set ratio:", this->otc_set_ratio_number_);
+    this->otc_set_ratio_number_->dump_custom_config("  ");
   }
 #endif
 }
